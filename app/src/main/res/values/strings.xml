@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">Giatros</string>
+    <string name="prompt_email">Enter Email</string>
+    <string name="prompt_password">Enter Password</string>
+    <string name="action_sign_in">Sign In</string>
+    <string name="sign_up">Sign up</string>
+    <string name="invalid_password">Invalid Password</string>
+    <string name="field_required">Required</string>
+    <string name="invalid_email">Syntax Invalid</string>
+    <string name="incorrect_password">Syntax Invalid</string>
+    <string name="splash_text">Hello World, splash</string>
+    <string name="title_activity_giatros">Giatros</string>
+    <string name="title_activity_login_activity">Login</string>
+    <string name="desc">Steven Gerrard</string>
+    <string name="title_activity_symptoms">Symptoms</string>
+    <string name="title_activity_hello">Hello</string>
+    <string name="find_diseases">Find Diseases</string>
+    <string name="tag">abhinav</string>
+    <string name="sample_symptom">Sample Symptom</string>
+    <string name="add_button">+</string>
+</resources>
