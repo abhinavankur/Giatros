@@ -20,7 +20,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class SymptomsActivity extends AppCompatActivity implements ReceiveData{
+public class SymptomsActivity extends AppCompatActivity implements ReceiveData {
     ArrayList<String> selectedSymptoms = new ArrayList<>();
     ArrayList<String> symptoms = new ArrayList<>();
     ListView list;
@@ -41,7 +41,7 @@ public class SymptomsActivity extends AppCompatActivity implements ReceiveData{
         dialog = new ProgressDialog(this);
         dialog.setMessage("Symptoms loading...");
         dialog.show();
-        symptomsLoaderAsync = new SymptomsLoaderAsync(dialog,this);
+        symptomsLoaderAsync = new SymptomsLoaderAsync(dialog, this);
         symptomsLoaderAsync.execute();
 
         list = (ListView) findViewById(R.id.list);
@@ -78,14 +78,15 @@ public class SymptomsActivity extends AppCompatActivity implements ReceiveData{
         });
     }
 
-    public void actvAdapter(){
+    public void actvAdapter() {
         adapter = new ArrayAdapter<>(this, android.R.layout.select_dialog_item, symptoms);
         symptomFiller = (AutoCompleteTextView) findViewById(R.id.symptomTextView);
-        if (symptomFiller!=null) {
+        if (symptomFiller != null) {
             symptomFiller.setThreshold(1); /*will start working from first character  */
             symptomFiller.setAdapter(adapter);
         }
     }
+
     @Override
     public void getData(ArrayList<String> symptoms) {
         this.symptoms = symptoms;
