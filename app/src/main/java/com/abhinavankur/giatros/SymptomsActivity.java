@@ -1,5 +1,6 @@
 package com.abhinavankur.giatros;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -19,50 +20,34 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class SymptomsActivity extends AppCompatActivity {
-
-    String team[] = {"Real Madrid", "Manchester United", "Barcelona", "Chelsea", "Bayern Munich", "PSG", "Borussia Dortmund", "Liverpool", "Arsenal", "Valencia", "Villareal", "Leicester City", "AS Roma"};
+public class SymptomsActivity extends AppCompatActivity implements ReceiveData{
     ArrayList<String> selectedSymptoms = new ArrayList<>();
     ArrayList<String> symptoms = new ArrayList<>();
     ListView list;
     Button addButton, findDiseases;
     AutoCompleteTextView symptomFiller;
-    private static final String TAG = "abhinav";
     MyAdapter myAdapter;
     ArrayAdapter<String> adapter;
+    SymptomsLoaderAsync symptomsLoaderAsync;
+    ProgressDialog dialog;
+    private static final String TAG = "giatros";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_symptoms);
 
-        /*for (String tea:team) {
-            teams.add(tea);
-        }*/
-        Collections.addAll(symptoms, team);
+        /*Retrieving all the symptoms from the database*/
+        dialog = new ProgressDialog(this);
+        dialog.setMessage("Symptoms loading...");
+        dialog.show();
+        symptomsLoaderAsync = new SymptomsLoaderAsync(dialog,this);
+        symptomsLoaderAsync.execute();
 
         list = (ListView) findViewById(R.id.list);
         myAdapter = new MyAdapter();
         list.setAdapter(myAdapter);
 
-        /*list.setOnItemClickListener(
-                new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        //Object obj = parent.getItemAtPosition(position);
-                        String team = selectedSymptoms.get(position);
-                        Log.i(TAG, team);
-                        Toast.makeText(SymptomsActivity.this, team, Toast.LENGTH_SHORT).show();
-                    }
-                }
-        );*/
-
-        /*AutoCompleteTextView*/
-
-        adapter = new ArrayAdapter<String>(this, android.R.layout.select_dialog_item, symptoms);
-        symptomFiller = (AutoCompleteTextView) findViewById(R.id.symptomTextView);
-        symptomFiller.setThreshold(1); /*will start working from first character  */
-        symptomFiller.setAdapter(adapter);
         addButton = (Button) findViewById(R.id.addButton);
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,21 +63,32 @@ public class SymptomsActivity extends AppCompatActivity {
         });
 
         /*Find Diseases*/
-        findDiseases = (Button)findViewById(R.id.findDiseases);
+        findDiseases = (Button) findViewById(R.id.findDiseases);
         findDiseases.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (selectedSymptoms.isEmpty()){
-                    Toast.makeText(SymptomsActivity.this,"Choose at least one symptom",Toast.LENGTH_SHORT).show();
-                }
-                else{
+                if (selectedSymptoms.isEmpty()) {
+                    Toast.makeText(SymptomsActivity.this, "Choose at least one symptom", Toast.LENGTH_SHORT).show();
+                } else {
                     Intent i = new Intent(SymptomsActivity.this, DiseaseActivity.class);
-                    i.putStringArrayListExtra("symptoms",selectedSymptoms);
+                    i.putStringArrayListExtra("symptoms", selectedSymptoms);
                     startActivity(i);
                 }
-
             }
         });
+    }
+
+    public void actvAdapter(){
+        adapter = new ArrayAdapter<>(this, android.R.layout.select_dialog_item, symptoms);
+        symptomFiller = (AutoCompleteTextView) findViewById(R.id.symptomTextView);
+        if (symptomFiller!=null) {
+            symptomFiller.setThreshold(1); /*will start working from first character  */
+            symptomFiller.setAdapter(adapter);
+        }
+    }
+    @Override
+    public void getData(ArrayList<String> symptoms) {
+        this.symptoms = symptoms;
     }
 
     public class MyAdapter extends BaseAdapter {
@@ -130,6 +126,9 @@ public class SymptomsActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     selectedSymptoms.remove(position);
                     notifyDataSetChanged();    /*notifyDataSetChanged is a method of the Adapter class*/
+
+                    symptoms.add(getItem(position).toString());
+                    adapter.notifyDataSetChanged();
                 }
             });
 
