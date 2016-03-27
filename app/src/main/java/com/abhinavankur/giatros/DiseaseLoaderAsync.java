@@ -56,8 +56,7 @@ public class DiseaseLoaderAsync extends AsyncTask<String, Void, String> {
             URL url = new URL("http://192.168.43.164/server/show_diseases.php");
             httpURLConnection = (HttpURLConnection) url.openConnection();
             httpURLConnection.setDoOutput(true);    /*set connection output to true*/
-            /*httpURLConnection.setRequestMethod("POST")*/
-                 /*instead of a GET, method="POST"*/
+            /*httpURLConnection.setRequestMethod("POST")*/ /*instead of a GET, method="POST"*/
            /* httpURLConnection.setChunkedStreamingMode(0);
             httpURLConnection.connect();*/
 
