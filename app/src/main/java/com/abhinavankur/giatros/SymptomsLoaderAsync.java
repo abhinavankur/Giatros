@@ -24,6 +24,9 @@ public class SymptomsLoaderAsync extends AsyncTask<Void,Void,String>{
     public ReceiveData rd;
     public static final String TAG = "giatros";
 
+    URL url;
+    HttpURLConnection httpURLConnection;
+
     public SymptomsLoaderAsync(ProgressDialog progressDialog,SymptomsActivity sa){
         this.dialog = progressDialog;
         this.symptomsActivity = sa;
@@ -33,8 +36,8 @@ public class SymptomsLoaderAsync extends AsyncTask<Void,Void,String>{
     @Override
     protected String doInBackground(Void... params) {
         try{
-            URL url = new URL("http://192.168.43.164/server/show_symptoms.php");
-            HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+            url = new URL("http://192.168.43.164/server/show_symptoms.php");
+            httpURLConnection = (HttpURLConnection) url.openConnection();
             InputStream inputStream = new BufferedInputStream(httpURLConnection.getInputStream());
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"),8);
             StringBuilder stringBuilder = new StringBuilder();
@@ -56,6 +59,9 @@ public class SymptomsLoaderAsync extends AsyncTask<Void,Void,String>{
         }
         catch(Exception e){
             Log.i(TAG,e.toString());
+        }
+        finally {
+            httpURLConnection.disconnect();
         }
         return null;
     }
