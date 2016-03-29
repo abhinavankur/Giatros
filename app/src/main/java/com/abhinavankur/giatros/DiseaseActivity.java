@@ -40,6 +40,11 @@ public class DiseaseActivity extends AppCompatActivity implements ReceiveData{
     }
 
     @Override
+    public void onBackPressed() {
+        finish();
+    }
+
+    @Override
     public void getData(ArrayList<String> symptoms) {
         this.diseaseName = symptoms;
     }

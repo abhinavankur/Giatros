@@ -29,7 +29,8 @@
             android:label="@string/title_activity_login_activity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".SymptomsActivity" />
-        <activity android:name=".DiseaseActivity"> </activity>
+        <activity android:name=".DiseaseActivity"></activity>
+        <activity android:name=".SignUpActivity"></activity>
     </application>
 
 </manifest>

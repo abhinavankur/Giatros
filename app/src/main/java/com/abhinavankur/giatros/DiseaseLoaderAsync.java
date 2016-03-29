@@ -29,7 +29,6 @@ public class DiseaseLoaderAsync extends AsyncTask<String, Void, String> {
     ProgressDialog dialog;
     ReceiveData rd;
     String result;
-    String data = "";
     private static final String TAG = "giatros";
 
     public DiseaseLoaderAsync(ProgressDialog dialog, ArrayList<String> symptoms, DiseaseActivity da) {
@@ -43,9 +42,9 @@ public class DiseaseLoaderAsync extends AsyncTask<String, Void, String> {
     @Override
     protected String doInBackground(String... params) {
 
-        try {
-            values = new JSONObject();
+        String data = "";
 
+        try {
             for (int i = 0; i < symptoms.size(); i++) {
                 if (i == 0)
                     data += URLEncoder.encode("symptom" + String.valueOf(i + 1), "UTF-8") + "=" + URLEncoder.encode(symptoms.get(i), "UTF-8");
