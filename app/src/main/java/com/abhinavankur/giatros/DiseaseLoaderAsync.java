@@ -22,7 +22,7 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 
 public class DiseaseLoaderAsync extends AsyncTask<String, Void, String> {
-    ArrayList<String> symptoms, disease_id = new ArrayList<>(), disease_name = new ArrayList<>();
+    ArrayList<String> symptoms, disease_id = new ArrayList<>(), disease_name = new ArrayList<>(), special_name = new ArrayList<>(), test_name = new ArrayList<>();
     DiseaseActivity diseaseActivity;
     HttpURLConnection httpURLConnection;
     JSONObject values;
@@ -52,7 +52,8 @@ public class DiseaseLoaderAsync extends AsyncTask<String, Void, String> {
                     data += "&" + URLEncoder.encode("symptom" + String.valueOf(i + 1), "UTF-8") + "=" + URLEncoder.encode(symptoms.get(i), "UTF-8");
             }
 
-            URL url = new URL("http://192.168.43.164/server/show_diseases.php");
+            /*URL url = new URL("http://192.168.43.164/server/show_diseases.php");*/
+            URL url = new URL("http://giatros.net23.net/show_diseases.php");
             httpURLConnection = (HttpURLConnection) url.openConnection();
             httpURLConnection.setDoOutput(true);    /*set connection output to true*/
             /*httpURLConnection.setRequestMethod("POST")*/ /*instead of a GET, method="POST"*/
@@ -72,6 +73,7 @@ public class DiseaseLoaderAsync extends AsyncTask<String, Void, String> {
             }
             in.close();
             result = stringBuilder.toString();
+            result = result.substring(0,result.indexOf("<!-- Hosting24 Analytics Code --><script type=\"text/javascript\" src=\"http://stats.hosting24.com/count.php\"></script><!-- End Of Analytics Code -->"));
             Log.i(TAG, result);
 
             JSONArray diseases = new JSONArray(result);
@@ -80,6 +82,8 @@ public class DiseaseLoaderAsync extends AsyncTask<String, Void, String> {
                 disease = diseases.getJSONObject(i);
                 disease_id.add(disease.getString("disease_id"));
                 disease_name.add(disease.getString("disease_name"));
+                special_name.add(disease.getString("special_name"));
+                test_name.add(disease.getString("test_name"));
             }
         } catch (Exception e) {
             Log.i(TAG, e.toString());
@@ -93,7 +97,7 @@ public class DiseaseLoaderAsync extends AsyncTask<String, Void, String> {
     @Override
     protected void onPostExecute(String s) {
         dialog.dismiss();
-        rd.getData(disease_name);
+        rd.getData(disease_name, special_name, test_name);
         diseaseActivity.callback();
     }
 }

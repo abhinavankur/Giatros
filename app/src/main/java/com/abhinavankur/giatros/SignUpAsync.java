@@ -46,7 +46,7 @@ public class SignUpAsync extends AsyncTask<String,Void,String>{
             data += "&" + URLEncoder.encode("password","UTF-8")+"="+URLEncoder.encode(password,"UTF-8");
             data += "&" + URLEncoder.encode("email","UTF-8")+"="+URLEncoder.encode(emailId,"UTF-8");
             data += "&" + URLEncoder.encode("phone","UTF-8")+"="+URLEncoder.encode(phoneNumber,"UTF-8");
-            URL url = new URL("http://192.168.43.164/server/sign_up.php");
+            URL url = new URL("http://giatros.net23.net/sign_up.php");
             connection = (HttpURLConnection)url.openConnection();
             connection.setDoOutput(true);
 
@@ -63,6 +63,7 @@ public class SignUpAsync extends AsyncTask<String,Void,String>{
             }
             inputStream.close();
             result = builder.toString();
+            result = result.substring(0,result.indexOf("<!-- Hosting24 Analytics Code --><script type=\"text/javascript\" src=\"http://stats.hosting24.com/count.php\"></script><!-- End Of Analytics Code -->"));
 
             JSONArray array = new JSONArray(result);
             JSONObject object;

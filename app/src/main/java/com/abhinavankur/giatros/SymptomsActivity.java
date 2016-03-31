@@ -47,20 +47,11 @@ public class SymptomsActivity extends AppCompatActivity implements ReceiveData {
         list = (ListView) findViewById(R.id.list);
         myAdapter = new MyAdapter();
         list.setAdapter(myAdapter);
+        symptomFiller = (AutoCompleteTextView) findViewById(R.id.symptomTextView);
 
         addButton = (Button) findViewById(R.id.addButton);
-        addButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String symptom = symptomFiller.getText().toString();
-                symptomFiller.setText(null);
-                selectedSymptoms.add(symptom);
-                myAdapter.notifyDataSetChanged();
+        addButton.setOnClickListener(new SymptomsListener());
 
-                symptoms.remove(symptoms.indexOf(symptom));
-                adapter.notifyDataSetChanged();
-            }
-        });
 
         /*Find Diseases*/
         findDiseases = (Button) findViewById(R.id.findDiseases);
@@ -78,18 +69,26 @@ public class SymptomsActivity extends AppCompatActivity implements ReceiveData {
         });
     }
 
-    public void actvAdapter() {
-        adapter = new ArrayAdapter<>(this, android.R.layout.select_dialog_item, symptoms);
-        symptomFiller = (AutoCompleteTextView) findViewById(R.id.symptomTextView);
-        if (symptomFiller != null) {
-            symptomFiller.setThreshold(1); /*will start working from first character  */
-            symptomFiller.setAdapter(adapter);
+    class SymptomsListener implements View.OnClickListener{
+        @Override
+        public void onClick(View v) {
+            String symptom = symptomFiller.getText().toString();
+            symptomFiller.setText(null);
+            selectedSymptoms.add(symptom);
+            myAdapter.notifyDataSetChanged();
+
+            symptoms.remove(symptoms.indexOf(symptom));
+            adapter.notifyDataSetChanged();
+            Log.i(TAG,symptoms.toString());
         }
     }
 
     @Override
-    public void getData(ArrayList<String> symptoms) {
-        this.symptoms = symptoms;
+    public void getData(ArrayList<String>... symptoms) {
+        this.symptoms = symptoms[0];
+        adapter = new ArrayAdapter<>(this, android.R.layout.select_dialog_item, this.symptoms);
+        symptomFiller.setThreshold(1); /*will start working from first character  */
+        symptomFiller.setAdapter(adapter);
     }
 
     public class MyAdapter extends BaseAdapter {
@@ -101,7 +100,7 @@ public class SymptomsActivity extends AppCompatActivity implements ReceiveData {
 
         @Override
         public Object getItem(int position) {
-            return null;
+            return selectedSymptoms.get(position);
         }
 
         @Override
@@ -119,16 +118,16 @@ public class SymptomsActivity extends AppCompatActivity implements ReceiveData {
 
             TextView symptom = (TextView) convertView.findViewById(R.id.symptomsTextView);
             Button button = (Button) convertView.findViewById(R.id.symptomsButton);
-            final String value = selectedSymptoms.get(position);
+            String value = selectedSymptoms.get(position);
             symptom.setText(value);
 
             button.setOnClickListener(new Button.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    selectedSymptoms.remove(position);
-                    notifyDataSetChanged();    /*notifyDataSetChanged is a method of the Adapter class*/
-
+                    Log.i(TAG,getItem(position).toString());
                     symptoms.add(getItem(position).toString());
+                    selectedSymptoms.remove(position);
+                    myAdapter.notifyDataSetChanged();    /*notifyDataSetChanged is a method of the Adapter class*/
                     adapter.notifyDataSetChanged();
                 }
             });

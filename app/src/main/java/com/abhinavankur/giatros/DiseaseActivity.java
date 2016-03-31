@@ -1,7 +1,9 @@
 package com.abhinavankur.giatros;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,7 +17,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 public class DiseaseActivity extends AppCompatActivity implements ReceiveData{
-    ArrayList<String> symptoms, diseaseId, diseaseName = new ArrayList<>();
+    ArrayList<String> symptoms, diseaseId, diseaseName = new ArrayList<>(), specialName = new ArrayList<>(), testName = new ArrayList<>();
     Bundle bundle;
     DiseaseLoaderAsync diseaseLoaderAsync;
     Intent i;
@@ -36,7 +38,6 @@ public class DiseaseActivity extends AppCompatActivity implements ReceiveData{
         dialog.show();
         diseaseLoaderAsync = new DiseaseLoaderAsync(dialog,symptoms,this);
         diseaseLoaderAsync.execute();
-
     }
 
     @Override
@@ -44,9 +45,23 @@ public class DiseaseActivity extends AppCompatActivity implements ReceiveData{
         finish();
     }
 
+    public void logout(View view){
+        SharedPreferences preferences = this.getSharedPreferences("Credentials", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("emailId",null);
+        editor.putString("password", null);
+        editor.apply();
+
+        Intent i = new Intent(this,LoginActivity.class);
+        startActivity(i);
+        finish();
+        new SymptomsActivity().finish();
+    }
     @Override
-    public void getData(ArrayList<String> symptoms) {
-        this.diseaseName = symptoms;
+    public void getData(ArrayList<String>... symptoms) {
+        this.diseaseName = symptoms[0];
+        this.specialName = symptoms[1];
+        this.testName = symptoms[2];
     }
 
     public void callback(){
@@ -56,7 +71,7 @@ public class DiseaseActivity extends AppCompatActivity implements ReceiveData{
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(DiseaseActivity.this,String.valueOf(diseaseName.get(position)),Toast.LENGTH_SHORT).show();
+                Toast.makeText(DiseaseActivity.this,String.valueOf(specialName.get(position)) + " " + String.valueOf(testName.get(position)),Toast.LENGTH_SHORT).show();
             }
         });
     }

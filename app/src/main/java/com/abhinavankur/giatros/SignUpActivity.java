@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
@@ -18,7 +19,7 @@ public class SignUpActivity extends AppCompatActivity {
     EditText first_name, last_name, pass, email, phone_number;
     Button submit;
     ImageButton showPassword;
-    private static final int SHOW_FLAG = 0;
+    private static boolean SHOW_FLAG = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +42,14 @@ public class SignUpActivity extends AppCompatActivity {
         showPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (!SHOW_FLAG){
+                    pass.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                    SHOW_FLAG = true;
+                }
+                else if (SHOW_FLAG){
+                    pass.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                    SHOW_FLAG = false;
+                }
 
             }
         });

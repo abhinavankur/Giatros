@@ -20,7 +20,6 @@ public class SymptomsLoaderAsync extends AsyncTask<Void,Void,String>{
     JSONArray jsonArray;
     ArrayList<String> symptoms = new ArrayList<>();
     ProgressDialog dialog;
-    SymptomsActivity symptomsActivity;
     public ReceiveData rd;
     public static final String TAG = "giatros";
 
@@ -29,14 +28,13 @@ public class SymptomsLoaderAsync extends AsyncTask<Void,Void,String>{
 
     public SymptomsLoaderAsync(ProgressDialog progressDialog,SymptomsActivity sa){
         this.dialog = progressDialog;
-        this.symptomsActivity = sa;
         this.rd = sa;
     }
 
     @Override
     protected String doInBackground(Void... params) {
         try{
-            url = new URL("http://192.168.43.164/server/show_symptoms.php");
+            url = new URL("http://giatros.net23.net/show_symptoms.php");
             httpURLConnection = (HttpURLConnection) url.openConnection();
             InputStream inputStream = new BufferedInputStream(httpURLConnection.getInputStream());
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"),8);
@@ -47,6 +45,7 @@ public class SymptomsLoaderAsync extends AsyncTask<Void,Void,String>{
             }
             inputStream.close();
             result = stringBuilder.toString();
+            result = result.substring(0,result.indexOf("<!-- Hosting24 Analytics Code --><script type=\"text/javascript\" src=\"http://stats.hosting24.com/count.php\"></script><!-- End Of Analytics Code -->"));
             Log.i(TAG, result);
 
             jsonArray = new JSONArray(result);
@@ -71,6 +70,5 @@ public class SymptomsLoaderAsync extends AsyncTask<Void,Void,String>{
         /*super.onPostExecute(s);*/
         dialog.dismiss();
         rd.getData(symptoms);
-        symptomsActivity.actvAdapter();
     }
 }
