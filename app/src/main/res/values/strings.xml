@@ -18,6 +18,7 @@
     <string name="tag">abhinav</string>
     <string name="sample_symptom">Sample Symptom</string>
     <string name="add_button">+</string>
+    <string name="cancel_button">X</string>
     <string name="password_hint">Password</string>
     <string name="email_hint">Email Id</string>
     <string name="login_sign_up">New User? Sign Up!</string>

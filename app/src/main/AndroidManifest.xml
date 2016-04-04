@@ -26,10 +26,13 @@
         </activity>
         <activity
             android:name=".LoginActivity"
-            android:label="@string/title_activity_login_activity"> </activity>
+            android:label="@string/title_activity_login_activity" />
         <activity android:name=".SymptomsActivity" />
-        <activity android:name=".DiseaseActivity"> </activity>
-        <activity android:name=".SignUpActivity"> </activity>
+        <activity android:name=".DiseaseActivity" />
+        <activity android:name=".SignUpActivity" />
+        <activity android:name=".DummyExpandable" />
+        <activity android:name=".DiseaseAugmenter" />
+        <activity android:name=".DiseaseAugmenterTwo"/>
     </application>
 
 </manifest>

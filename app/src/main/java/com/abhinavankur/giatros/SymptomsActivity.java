@@ -37,7 +37,6 @@ public class SymptomsActivity extends AppCompatActivity implements ReceiveData {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_symptoms);
 
-        /*Retrieving all the symptoms from the database*/
         dialog = new ProgressDialog(this);
         dialog.setMessage("Symptoms loading...");
         dialog.show();
@@ -52,7 +51,14 @@ public class SymptomsActivity extends AppCompatActivity implements ReceiveData {
         addButton = (Button) findViewById(R.id.addButton);
         addButton.setOnClickListener(new SymptomsListener());
 
-
+        symptomFiller.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    validateSymptom();
+                }
+            }
+        });
         /*Find Diseases*/
         findDiseases = (Button) findViewById(R.id.findDiseases);
         findDiseases.setOnClickListener(new View.OnClickListener() {
@@ -69,17 +75,32 @@ public class SymptomsActivity extends AppCompatActivity implements ReceiveData {
         });
     }
 
-    class SymptomsListener implements View.OnClickListener{
+    public boolean validateSymptom() {
+        String s1 = symptomFiller.getText().toString();
+        String s2 = symptoms.get(symptoms.indexOf(s1));
+        Log.i(TAG, "s1 = " + s1 + "s2 = " + s2);
+        if (s2 == null) {
+            symptomFiller.setError("Invalid Symptom");
+            return false;
+        }
+        return true;
+    }
+
+    class SymptomsListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
             String symptom = symptomFiller.getText().toString();
-            symptomFiller.setText(null);
-            selectedSymptoms.add(symptom);
-            myAdapter.notifyDataSetChanged();
+            if (validateSymptom()) {
+                symptomFiller.setText(null);
+                selectedSymptoms.add(symptom);
+                myAdapter.notifyDataSetChanged();
 
-            symptoms.remove(symptoms.indexOf(symptom));
-            adapter.notifyDataSetChanged();
-            Log.i(TAG,symptoms.toString());
+                if (symptoms.indexOf(symptom) != -1) {
+                    symptoms.remove(symptoms.indexOf(symptom));
+                    adapter.notifyDataSetChanged();
+                    Log.i(TAG, symptoms.toString());
+                }
+            }
         }
     }
 
@@ -105,7 +126,7 @@ public class SymptomsActivity extends AppCompatActivity implements ReceiveData {
 
         @Override
         public long getItemId(int position) {
-            return 0;
+            return position;
         }
 
         @Override
@@ -124,7 +145,7 @@ public class SymptomsActivity extends AppCompatActivity implements ReceiveData {
             button.setOnClickListener(new Button.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.i(TAG,getItem(position).toString());
+                    Log.i(TAG, getItem(position).toString());
                     symptoms.add(getItem(position).toString());
                     selectedSymptoms.remove(position);
                     myAdapter.notifyDataSetChanged();    /*notifyDataSetChanged is a method of the Adapter class*/

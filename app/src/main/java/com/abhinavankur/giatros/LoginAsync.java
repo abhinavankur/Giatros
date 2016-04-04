@@ -11,30 +11,25 @@ import android.widget.Toast;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.net.URLEncoder;
 
 public class LoginAsync extends AsyncTask<String,Void,String>{
+
+    MyDatabase db;
     LoginActivity loginActivity;
     ProgressDialog dialog;
     String data;
     String result;
-    String firstName, lastName, password, emailId, phoneNumber;
-    HttpURLConnection connection;
+    String firstName, lastName, password, emailId, phoneNumber, user;
     Boolean flag = false;
     Logger l;
     Context context;
     private static final String TAG = "giatros";
 
-    public LoginAsync(String emailId, String password, LoginActivity loginActivity, ProgressDialog dialog){
+    public LoginAsync(String emailId, String password, String user, LoginActivity loginActivity, ProgressDialog dialog){
         this.emailId = emailId;
         this.password = password;
+        this.user = user;
         this.dialog = dialog;
         this.loginActivity = loginActivity;
         this.l = loginActivity;
@@ -46,25 +41,10 @@ public class LoginAsync extends AsyncTask<String,Void,String>{
         try{
             data = URLEncoder.encode("email","UTF-8") + "=" + URLEncoder.encode(emailId,"UTF-8");
             data += "&" + URLEncoder.encode("password","UTF-8") + "=" + URLEncoder.encode(password,"UTF-8");
+            data += "&" + URLEncoder.encode("user","UTF-8") + "=" + URLEncoder.encode(user,"UTF-8");
 
-            URL url = new URL("http://giatros.net23.net/sign_in.php");
-            connection = (HttpURLConnection) url.openConnection();
-            connection.setDoOutput(true);
-
-            OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream());
-            writer.write(data);
-            writer.flush();
-
-            InputStream input = new BufferedInputStream(connection.getInputStream());
-            BufferedReader reader = new BufferedReader(new InputStreamReader(input,"UTF-8"), 8);
-            StringBuilder builder = new StringBuilder();
-            String row;
-            while ((row=reader.readLine())!=null){
-                builder.append(row);
-            }
-            input.close();
-            result = builder.toString();
-            result = result.substring(0,result.indexOf("<!-- Hosting24 Analytics Code --><script type=\"text/javascript\" src=\"http://stats.hosting24.com/count.php\"></script><!-- End Of Analytics Code -->"));
+            db = new MyDatabase("http://giatros.net23.net/sign_in.php", data);
+            result = db.receive();
 
             if (result.length()!=2){
                 flag = true;
@@ -89,9 +69,6 @@ public class LoginAsync extends AsyncTask<String,Void,String>{
         catch(Exception e){
             Log.i(TAG,e.toString());
         }
-        finally {
-            connection.disconnect();
-        }
         return result;
     }
 
@@ -100,6 +77,7 @@ public class LoginAsync extends AsyncTask<String,Void,String>{
         if (flag){
             SharedPreferences preferences = context.getSharedPreferences("Credentials",Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = preferences.edit();
+            editor.putString("user",user);
             editor.putString("firstName",firstName);
             editor.putString("lastName",lastName);
             editor.putString("emailId",emailId);
@@ -107,7 +85,13 @@ public class LoginAsync extends AsyncTask<String,Void,String>{
             editor.putString("phoneNumber", phoneNumber);
             editor.apply();
 
-            Intent i = new Intent(context,SymptomsActivity.class);
+            Intent i;
+            if (user.equals("Doctor")){
+                i = new Intent(context,DiseaseAugmenter.class);
+            }
+            else{
+                i = new Intent(context,SymptomsActivity.class);
+            }
             i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(i);
         }

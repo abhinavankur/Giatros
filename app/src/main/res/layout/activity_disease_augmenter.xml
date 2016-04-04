@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.abhinavankur.giatros.DiseaseAugmenter">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/scrollView" >
+
+        <RelativeLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:ems="10"
+                android:hint="Disease Name"
+                android:id="@+id/diseaseName"
+                android:gravity="center"
+                android:width="320sp" />
+
+            <AutoCompleteTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Specialization"
+                android:layout_below="@id/diseaseName"
+                android:layout_marginTop="@dimen/fab_margin"
+                android:id="@+id/specialization"
+                android:gravity="center" />
+
+            <AutoCompleteTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Tests"
+                android:layout_below="@id/specialization"
+                android:layout_marginTop="@dimen/fab_margin"
+                android:id="@+id/tests"
+                android:layout_gravity="right"
+                android:gravity="center" />
+
+            <ListView
+                android:layout_width="wrap_content"
+                android:layout_height="259dp"
+                android:layout_below="@id/tests"
+                android:layout_marginTop="10sp"
+                android:id="@+id/selectedTests" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Next"
+                android:id="@+id/nextDisease"
+                android:layout_gravity="center"
+                android:layout_below="@id/selectedTests"
+                android:layout_centerHorizontal="true" />
+
+            <Button
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="+"
+                android:id="@+id/addTest"
+                android:layout_alignBottom="@+id/tests"
+                android:layout_alignParentEnd="true" />
+
+        </RelativeLayout>
+    </ScrollView>
+
+
+</RelativeLayout>

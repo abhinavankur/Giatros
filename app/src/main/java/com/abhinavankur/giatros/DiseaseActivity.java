@@ -57,11 +57,15 @@ public class DiseaseActivity extends AppCompatActivity implements ReceiveData{
         finish();
         new SymptomsActivity().finish();
     }
+
+    public void aisehi(View view){
+        Intent i = new Intent(this, DummyExpandable.class);
+        startActivity(i);
+    }
     @Override
     public void getData(ArrayList<String>... symptoms) {
         this.diseaseName = symptoms[0];
         this.specialName = symptoms[1];
-        this.testName = symptoms[2];
     }
 
     public void callback(){
@@ -71,7 +75,7 @@ public class DiseaseActivity extends AppCompatActivity implements ReceiveData{
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(DiseaseActivity.this,String.valueOf(specialName.get(position)) + " " + String.valueOf(testName.get(position)),Toast.LENGTH_SHORT).show();
+                Toast.makeText(DiseaseActivity.this,String.valueOf(specialName.get(position)),Toast.LENGTH_SHORT).show();
             }
         });
     }

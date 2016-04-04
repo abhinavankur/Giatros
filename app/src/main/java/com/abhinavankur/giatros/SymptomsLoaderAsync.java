@@ -6,16 +6,12 @@ import android.app.ProgressDialog;
 
 import org.json.JSONArray;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
 public class SymptomsLoaderAsync extends AsyncTask<Void,Void,String>{
 
+    MyDatabase db;
     String result;
     JSONArray jsonArray;
     ArrayList<String> symptoms = new ArrayList<>();
@@ -23,44 +19,34 @@ public class SymptomsLoaderAsync extends AsyncTask<Void,Void,String>{
     public ReceiveData rd;
     public static final String TAG = "giatros";
 
-    URL url;
-    HttpURLConnection httpURLConnection;
+    public SymptomsLoaderAsync(){
+
+    }
 
     public SymptomsLoaderAsync(ProgressDialog progressDialog,SymptomsActivity sa){
         this.dialog = progressDialog;
         this.rd = sa;
     }
 
+    public void setData(ProgressDialog dialog, DiseaseAugmenterTwo da2){
+        this.dialog = dialog;
+        this.rd = da2;
+    }
     @Override
     protected String doInBackground(Void... params) {
         try{
-            url = new URL("http://giatros.net23.net/show_symptoms.php");
-            httpURLConnection = (HttpURLConnection) url.openConnection();
-            InputStream inputStream = new BufferedInputStream(httpURLConnection.getInputStream());
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"),8);
-            StringBuilder stringBuilder = new StringBuilder();
-            String line;
-            while ((line = bufferedReader.readLine()) != null){
-                stringBuilder.append(line);
-            }
-            inputStream.close();
-            result = stringBuilder.toString();
-            result = result.substring(0,result.indexOf("<!-- Hosting24 Analytics Code --><script type=\"text/javascript\" src=\"http://stats.hosting24.com/count.php\"></script><!-- End Of Analytics Code -->"));
-            Log.i(TAG, result);
+            db = new MyDatabase("http://giatros.net23.net/show_symptoms.php", null);
+            result = db.receive();
 
             jsonArray = new JSONArray(result);
             String temp;
             for (int i = 0; i < jsonArray.length(); i++) {
                 temp = jsonArray.getString(i);
-                Log.i(TAG, temp);
                 symptoms.add(temp);
             }
         }
         catch(Exception e){
             Log.i(TAG,e.toString());
-        }
-        finally {
-            httpURLConnection.disconnect();
         }
         return null;
     }
