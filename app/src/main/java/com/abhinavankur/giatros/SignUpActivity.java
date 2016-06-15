@@ -18,6 +18,8 @@ public class SignUpActivity extends AppCompatActivity {
     String firstName, lastName, password, emailId, phoneNumber;
     EditText first_name, last_name, pass, email, phone_number;
     Button submit;
+    String user;
+    boolean flag;
     ImageButton showPassword;
     private static boolean SHOW_FLAG = false;
     @Override
@@ -32,6 +34,24 @@ public class SignUpActivity extends AppCompatActivity {
         phone_number = (EditText) findViewById(R.id.phone_number);
         submit = (Button) findViewById(R.id.submit);
         showPassword = (ImageButton) findViewById(R.id.showPassword);
+
+        Intent i = getIntent();
+        user = i.getStringExtra("user");
+        flag = i.getBooleanExtra("flag", false);
+        if (flag){
+            firstName = i.getStringExtra("firstName");
+            lastName = i.getStringExtra("lastName");
+            password = i.getStringExtra("password");
+            emailId = i.getStringExtra("emailId");
+            phoneNumber = i.getStringExtra("phoneNumber");
+
+            first_name.setText(firstName);
+            last_name.setText(lastName);
+            pass.setText(password);
+            email.setText(emailId);
+            phone_number.setText(phoneNumber);
+        }
+
 
         first_name.addTextChangedListener(new MyTextWatcher(first_name));
         last_name.addTextChangedListener(new MyTextWatcher(last_name));
@@ -66,7 +86,7 @@ public class SignUpActivity extends AppCompatActivity {
                     ProgressDialog dialog = new ProgressDialog(SignUpActivity.this);
                     dialog.setMessage("Saving Data...");
                     dialog.show();
-                    SignUpAsync signUpAsync = new SignUpAsync(firstName, lastName, password, emailId, phoneNumber, dialog, getBaseContext());
+                    SignUpAsync signUpAsync = new SignUpAsync(user, firstName, lastName, password, emailId, phoneNumber, dialog, getBaseContext());
                     signUpAsync.execute();
 
                     Intent i = new Intent(getApplicationContext(),LoginActivity.class);

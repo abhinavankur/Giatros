@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimary">#009acd</color>
+    <color name="colorPrimaryDark">#125688</color>
+    <color name="textColorPrimary">#FFFFFF</color>
+    <color name="windowBackground">#FFFFFF</color>
+    <color name="navigationBarColor">#000000</color>
+    <color name="colorAccent">#c8e8ff</color>
+
+    <color name="list_divider">#009acd</color>
+    <color name="list_background">#009acd</color>
+    <color name="list_item_title">#009acd</color>
+    <color name="counter_text_color">#009acd</color>
+    <color name="counter_text_bg">#009acd</color>
+    <color name="list_background_pressed">#009acd</color>
 </resources>

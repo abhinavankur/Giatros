@@ -20,7 +20,7 @@ public class LoginAsync extends AsyncTask<String,Void,String>{
     ProgressDialog dialog;
     String data;
     String result;
-    String firstName, lastName, password, emailId, phoneNumber, user;
+    String firstName, lastName, password, emailId, phoneNumber, user, id;
     Boolean flag = false;
     Logger l;
     Context context;
@@ -48,11 +48,14 @@ public class LoginAsync extends AsyncTask<String,Void,String>{
 
             if (result.length()!=2){
                 flag = true;
-                Log.i(TAG,"FLAG = True");
                 JSONArray array = new JSONArray(result);
                 JSONObject object;
                 for (int i=0;i<array.length();i++){
                     object = array.getJSONObject(i);
+                    if (user.equals("Doctor"))
+                        id = object.getString("doctor_id");
+                    else
+                        id = object.getString("id");
                     firstName = object.getString("first_name");
                     lastName = object.getString("last_name");
                     phoneNumber = object.getString("phone");
@@ -61,30 +64,31 @@ public class LoginAsync extends AsyncTask<String,Void,String>{
                 }
             }
             else{
-                Log.i(TAG,"FLAG = False");
                 flag = false;
             }
 
         }
         catch(Exception e){
-            Log.i(TAG,e.toString());
+            Log.i(TAG,"Cannot connect");
         }
         return result;
     }
 
     @Override
     protected void onPostExecute(String s) {
+        l.getData(flag);
+        dialog.dismiss();
         if (flag){
             SharedPreferences preferences = context.getSharedPreferences("Credentials",Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = preferences.edit();
             editor.putString("user",user);
+            editor.putString("id",id);
             editor.putString("firstName",firstName);
             editor.putString("lastName",lastName);
             editor.putString("emailId",emailId);
             editor.putString("password", password);
             editor.putString("phoneNumber", phoneNumber);
             editor.apply();
-
             Intent i;
             if (user.equals("Doctor")){
                 i = new Intent(context,DiseaseAugmenter.class);
@@ -98,7 +102,5 @@ public class LoginAsync extends AsyncTask<String,Void,String>{
         else{
             Toast.makeText(context, "Invalid Username/Password !!", Toast.LENGTH_SHORT).show();
         }
-        l.getData(flag);
-        dialog.dismiss();
     }
 }

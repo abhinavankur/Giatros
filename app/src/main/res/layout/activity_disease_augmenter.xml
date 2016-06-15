@@ -7,7 +7,8 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.abhinavankur.giatros.DiseaseAugmenter">
+    tools:context="com.abhinavankur.giatros.DiseaseAugmenter"
+    android:background="@drawable/background_image">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -27,7 +28,9 @@
                 android:hint="Disease Name"
                 android:id="@+id/diseaseName"
                 android:gravity="center"
-                android:width="320sp" />
+                android:width="320sp"
+                android:textColorHint="#FFFFFF"
+                android:textColor="#FFFFFF" />
 
             <AutoCompleteTextView
                 android:layout_width="match_parent"
@@ -36,7 +39,9 @@
                 android:layout_below="@id/diseaseName"
                 android:layout_marginTop="@dimen/fab_margin"
                 android:id="@+id/specialization"
-                android:gravity="center" />
+                android:gravity="center"
+                android:textColorHint="#FFFFFF"
+                android:textColor="#FFFFFF" />
 
             <AutoCompleteTextView
                 android:layout_width="match_parent"
@@ -46,7 +51,9 @@
                 android:layout_marginTop="@dimen/fab_margin"
                 android:id="@+id/tests"
                 android:layout_gravity="right"
-                android:gravity="center" />
+                android:gravity="center"
+                android:textColorHint="#FFFFFF"
+                android:textColor="#FFFFFF" />
 
             <ListView
                 android:layout_width="wrap_content"
@@ -62,7 +69,9 @@
                 android:id="@+id/nextDisease"
                 android:layout_gravity="center"
                 android:layout_below="@id/selectedTests"
-                android:layout_centerHorizontal="true" />
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/button_image"
+                android:textColor="#FFFFFF" />
 
             <Button
                 style="?android:attr/buttonStyleSmall"
@@ -70,8 +79,11 @@
                 android:layout_height="wrap_content"
                 android:text="+"
                 android:id="@+id/addTest"
+                android:layout_alignParentEnd="true"
+                android:textColor="#FFFFFF"
+                android:background="@drawable/button_image"
                 android:layout_alignBottom="@+id/tests"
-                android:layout_alignParentEnd="true" />
+                android:width="20dp" />
 
         </RelativeLayout>
     </ScrollView>

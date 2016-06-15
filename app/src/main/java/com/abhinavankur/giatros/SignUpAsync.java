@@ -14,13 +14,14 @@ import java.net.URLEncoder;
 public class SignUpAsync extends AsyncTask<String,Void,String>{
 
     MyDatabase db;
-    String firstName, lastName, password, emailId, phoneNumber;
+    String firstName, lastName, password, emailId, phoneNumber, user;
     String result, data;
     ProgressDialog dialog;
     Context context;
     private static final String TAG = "giatros";
 
-    public SignUpAsync(String firstName, String lastName, String password, String emailId, String phoneNumber, ProgressDialog dialog, Context context){
+    public SignUpAsync(String user, String firstName, String lastName, String password, String emailId, String phoneNumber, ProgressDialog dialog, Context context){
+        this.user = user;
         this.firstName = firstName;
         this.lastName = lastName;
         this.password = password;
@@ -33,6 +34,7 @@ public class SignUpAsync extends AsyncTask<String,Void,String>{
     protected String doInBackground(String... params) {
         data="";
         try{
+            data = URLEncoder.encode("user","UTF-8")+"="+URLEncoder.encode(user,"UTF-8");
             data = URLEncoder.encode("first_name","UTF-8")+"="+URLEncoder.encode(firstName,"UTF-8");
             data += "&" + URLEncoder.encode("last_name","UTF-8")+"="+URLEncoder.encode(lastName,"UTF-8");
             data += "&" + URLEncoder.encode("password","UTF-8")+"="+URLEncoder.encode(password,"UTF-8");

@@ -8,7 +8,8 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.abhinavankur.giatros.SymptomsActivity">
+    tools:context="com.abhinavankur.giatros.SymptomsActivity"
+    android:background="@drawable/background_image">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -24,7 +25,7 @@
                 android:layout_height="300sp"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
-                android:nestedScrollingEnabled="false" />
+                android:nestedScrollingEnabled="false"/>
 
             <AutoCompleteTextView
                 android:id="@+id/symptomTextView"
@@ -36,7 +37,9 @@
                 android:width="300sp"
                 android:completionHint="Fill Symptoms"
                 android:hint="@string/sample_symptom"
-                android:textAlignment="center" />
+                android:textAlignment="center"
+                android:textColor="#FFFFFF"
+                android:textColorHint="#FFFFFF" />
 
             <Button
                 android:id="@+id/findDiseases"
@@ -45,7 +48,10 @@
                 android:layout_below="@+id/symptomTextView"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
-                android:text="@string/find_diseases" />
+                android:text="@string/find_diseases"
+                android:background="@drawable/button_image"
+                android:textColorHint="#FFFFFF"
+                android:textColor="#FFFFFF" />
 
             <Button
                 android:id="@+id/addButton"
@@ -54,7 +60,10 @@
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/symptomTextView"
                 android:layout_alignParentEnd="true"
-                android:text="@string/add_button" />
+                android:text="@string/add_button"
+                android:background="@drawable/button_image"
+                android:textColor="#FFFFFF"
+                android:textColorHint="#FFFFFF" />
         </RelativeLayout>
     </ScrollView>
 </RelativeLayout>

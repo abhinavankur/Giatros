@@ -11,12 +11,14 @@ public class Validation {
     private static final String EMAIL_REGEX = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
     private static final String PHONE_REGEX = "/^\\+?\\d{1,3}(-|)?\\d{3,5}(-|)?\\d{1,10}$/";
     private static final String PIN_REGEX = "^[+][0-9]{6}$";
+    private static final String ASSOC_REGEX = "[0]+(\\.[0-9][0-9]?)?";
 
     // Error Messages
     private static final String REQUIRED_MSG = "Required";
     private static final String EMAIL_MSG = "Invalid email";
     private static final String PHONE_MSG = "Invalid number";
     private static final String PIN_MSG = "Invalid";
+    private static final String ASSOC_MESSAGE = "Between 0 and 1";
 
     // call this method when you need to check email validation
     public static boolean isEmailAddress(EditText editText, boolean required) {
@@ -26,6 +28,10 @@ public class Validation {
     // call this method when you need to check phone number validation
     public static boolean isPhoneNumber(EditText editText, boolean required) {
         return isValid(editText, PHONE_REGEX, PHONE_MSG, required);
+    }
+
+    public static boolean isNumber(EditText editText, boolean required) {
+        return isValid(editText, ASSOC_REGEX, ASSOC_MESSAGE, required);
     }
     public static boolean isPincode(EditText editText, boolean required) {
         return isValid(editText, PIN_REGEX, PIN_MSG, required);

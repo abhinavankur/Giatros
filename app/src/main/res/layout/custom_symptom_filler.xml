@@ -10,7 +10,9 @@
         android:layout_marginStart="@dimen/activity_horizontal_margin"
         android:layout_marginTop="@dimen/activity_vertical_margin"
         android:id="@+id/symptomsTextView"
-        android:width="200sp"/>
+        android:width="200sp"
+        android:textColorHint="#FFFFFF"
+        android:textColor="#FFFFFF" />
 
     <Button
         style="?android:attr/buttonStyleSmall"
@@ -18,16 +20,20 @@
         android:layout_height="wrap_content"
         android:text="@string/cancel_button"
         android:id="@+id/removeSymptom"
-        android:layout_alignTop="@+id/assoc"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:background="@drawable/button_image"
+        android:textColorHint="#FFFFFF"
+        android:textColor="#FFFFFF"/>
 
-    <Spinner
+    <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/assoc"
-        android:layout_alignTop="@+id/symptomsTextView"
-        android:layout_toEndOf="@id/symptomsTextView"
+        android:width="80dp"
+        android:layout_alignBottom="@+id/removeSymptom"
         android:layout_toStartOf="@+id/removeSymptom"
-        android:layout_alignBottom="@+id/symptomsTextView"
-        android:spinnerMode="dialog" />
+        android:hint="0.00"
+        android:textColorHint="#FFFFFF"
+        android:textColor="#FFFFFF"/>
+
 </RelativeLayout>

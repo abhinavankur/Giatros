@@ -15,19 +15,17 @@ import java.util.ArrayList;
 public class DiseaseLoaderAsync extends AsyncTask<String, Void, String> {
 
     MyDatabase db;
-    ArrayList<String> symptoms, disease_id = new ArrayList<>(), disease_name = new ArrayList<>(), special_name = new ArrayList<>(), test_name = new ArrayList<>();
-    DiseaseActivity diseaseActivity;
+    ArrayList<String> symptoms, matched = new ArrayList<>(), disease_name = new ArrayList<>(), special_name = new ArrayList<>(), assoc_sum = new ArrayList<>();
     JSONObject values;
     ProgressDialog dialog;
     ReceiveData rd;
     String result;
     private static final String TAG = "giatros";
 
-    public DiseaseLoaderAsync(ProgressDialog dialog, ArrayList<String> symptoms, DiseaseActivity da) {
+    public DiseaseLoaderAsync(ProgressDialog dialog, ArrayList<String> symptoms, DiseaseShowActivity da) {
         this.dialog = dialog;
         this.symptoms = symptoms;
         this.rd = da;
-        this.diseaseActivity = da;
     }
 
 
@@ -50,8 +48,9 @@ public class DiseaseLoaderAsync extends AsyncTask<String, Void, String> {
             JSONObject disease;
             for (int i = 0; i < diseases.length(); i++) {
                 disease = diseases.getJSONObject(i);
-                disease_id.add(disease.getString("disease_id"));
+                matched.add(disease.getString("matched"));
                 disease_name.add(disease.getString("disease_name"));
+                assoc_sum.add(disease.getString("assoc_sum"));
                 special_name.add(disease.getString("special_name"));
             }
         } catch (Exception e) {
@@ -63,7 +62,6 @@ public class DiseaseLoaderAsync extends AsyncTask<String, Void, String> {
     @Override
     protected void onPostExecute(String s) {
         dialog.dismiss();
-        rd.getData(disease_name, special_name);
-        diseaseActivity.callback();
+        rd.getData(matched, disease_name, assoc_sum, special_name);
     }
 }

@@ -3,17 +3,24 @@ package com.abhinavankur.giatros;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.text.InputType;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -23,16 +30,18 @@ public class LoginActivity extends AppCompatActivity implements Logger{
     boolean flag=false;
     String emailId, password, user;
     Button login;
+    ImageButton showLoginPassword;
     TextView sign_up;
     Spinner sp;
     ArrayList<String> choice;
-    private static final String TAG = "giatros";
+    private static boolean SHOW_FLAG = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        showLoginPassword = (ImageButton) findViewById(R.id.showLoginPassword);
         sign_up = (TextView) findViewById(R.id.sign_up);
         email_id = (EditText)findViewById(R.id.email_id);
         pass = (EditText)findViewById(R.id.password);
@@ -41,8 +50,24 @@ public class LoginActivity extends AppCompatActivity implements Logger{
         choice = new ArrayList<>();
         choice.add("Doctor");
         choice.add("Patient");
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,android.R.layout.simple_spinner_dropdown_item,choice);
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1,choice);
         sp.setAdapter(adapter);
+
+        showLoginPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!SHOW_FLAG){
+                    pass.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                    SHOW_FLAG = true;
+                }
+                else if (SHOW_FLAG){
+                    pass.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                    SHOW_FLAG = false;
+                }
+
+            }
+        });
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,7 +75,6 @@ public class LoginActivity extends AppCompatActivity implements Logger{
                 emailId = email_id.getText().toString().trim();
                 password = pass.getText().toString().trim();
                 user = sp.getSelectedItem().toString();
-                Log.i(TAG,user);
 
                 ProgressDialog dialog = new ProgressDialog(LoginActivity.this);
                 dialog.setMessage("Please Wait..");
@@ -58,13 +82,6 @@ public class LoginActivity extends AppCompatActivity implements Logger{
 
                 LoginAsync loginAsync = new LoginAsync(emailId, password, user, LoginActivity.this, dialog);
                 loginAsync.execute();
-                if (flag) {
-                    finish();
-                } else {
-                    //Toast.makeText(this,"Verify Credentials",Toast.LENGTH_LONG).show();
-                    email_id.setText("");
-                    pass.setText("");
-                }
             }
         });
 
@@ -72,6 +89,7 @@ public class LoginActivity extends AppCompatActivity implements Logger{
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(LoginActivity.this,SignUpActivity.class);
+                i.putExtra("user",user);
                 finish();
                 startActivity(i);
             }
@@ -92,6 +110,7 @@ public class LoginActivity extends AppCompatActivity implements Logger{
         finish();
     }
 
+
     private boolean isNetworkConnected() {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo ni = cm.getActiveNetworkInfo();
@@ -107,5 +126,11 @@ public class LoginActivity extends AppCompatActivity implements Logger{
     @Override
     public void getData(boolean b) {
         flag=b;
+        if (flag) {
+            finish();
+        } else {
+            email_id.setText("");
+            pass.setText("");
+        }
     }
 }

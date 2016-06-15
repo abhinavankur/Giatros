@@ -7,17 +7,19 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_CONTACTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
 
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/MyMaterialTheme">
         <activity
             android:name=".GiatrosActivity"
             android:label="@string/title_activity_giatros"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/MyMaterialTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -28,11 +30,19 @@
             android:name=".LoginActivity"
             android:label="@string/title_activity_login_activity" />
         <activity android:name=".SymptomsActivity" />
-        <activity android:name=".DiseaseActivity" />
         <activity android:name=".SignUpActivity" />
-        <activity android:name=".DummyExpandable" />
         <activity android:name=".DiseaseAugmenter" />
-        <activity android:name=".DiseaseAugmenterTwo"/>
+        <activity android:name=".DiseaseAugmenterTwo" />
+        <activity android:name=".DiseaseShowActivity" />
+        <activity android:name=".DoctorsTestsActivity" />
+        <activity
+            android:name=".AppointmentActivity"
+            android:label="@string/title_activity_appointment"
+            android:theme="@style/MyMaterialTheme" />
+        <activity android:name=".NewSymptomsDoctorActivity" />
+        <activity android:name=".SymptomDiseaseAssociateActivity" />
+        <activity android:name=".SymptomAugmenterActivity" />
+        <activity android:name=".NewSymptomsListActivity"></activity>
     </application>
 
 </manifest>

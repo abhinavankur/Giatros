@@ -13,7 +13,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_alignParentTop="true"
-            android:layout_alignParentStart="true">
+            android:layout_alignParentStart="true"
+            android:background="@drawable/background_image">
 
             <ListView
                 android:layout_width="wrap_content"
@@ -25,15 +26,17 @@
             <AutoCompleteTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Symptoms"
                 android:id="@+id/symptomFiller"
                 android:layout_gravity="bottom"
                 android:layout_weight="1"
+                android:hint="Symptoms"
                 android:layout_below="@+id/listView2"
                 android:layout_marginTop="15sp"
                 android:layout_marginStart="15sp"
                 android:width="320sp"
-                android:gravity="center" />
+                android:gravity="center"
+                android:textColorHint="#FFFFFF"
+                android:textColor="#FFFFFF" />
 
             <Button
                 style="?android:attr/buttonStyleSmall"
@@ -42,7 +45,10 @@
                 android:text="+"
                 android:id="@+id/addSymptoms"
                 android:layout_alignBottom="@+id/symptomFiller"
-                android:layout_alignParentEnd="true" />
+                android:layout_alignParentEnd="true"
+                android:background="@drawable/button_image"
+                android:textColorHint="#FFFFFF"
+                android:textColor="#FFFFFF" />
 
             <Button
                 android:layout_width="wrap_content"
@@ -51,7 +57,11 @@
                 android:id="@+id/saveDisease"
                 android:layout_below="@+id/symptomFiller"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="15sp" />
+                android:layout_marginTop="15sp"
+                android:background="@drawable/button_image"
+                android:textColorHint="#FFFFFF"
+                android:textColor="#FFFFFF" />
+
         </RelativeLayout>
         </ScrollView>
 </RelativeLayout>
